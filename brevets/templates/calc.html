@@ -179,9 +179,9 @@
                             item.find("input[name='km']").val('');
                             var place = item.find("input[name='location']").val(); // cannot use location for var name since it is keyword
                             item.find("input[name='location']").val('');
-                            var open = item.find("input[name='open']").val();
+                            var open_time = item.find("input[name='open']").val();
                             item.find("input[name='open']").val('');
-                            var close = item.find("input[name='close']").val();
+                            var close_time = item.find("input[name='close']").val();
                             item.find("input[name='close']").val('');
                             // If not empty, append to our list.
                             if (km) {
@@ -190,8 +190,8 @@
                                     "miles": miles,
                                     "km": km,
 				    "location": place,
-				    "open": open,
-				    "close": close,
+				    "open_time": open_time,
+				    "close_time": close_time,
                                 }
                                 // Push to list
                                 items.push(item_json);
@@ -272,8 +272,8 @@
 				      	ctrl.find("input[name='miles']").val(items[index].miles);
                                       	ctrl.find("input[name='km']").val(items[index].km);
                                       	ctrl.find("input[name='location']").val(items[index].location);
-                                      	ctrl.find("input[name='open']").val(items[index].open);
-                                      	ctrl.find("input[name='close']").val(items[index].close);
+                                      	ctrl.find("input[name='open']").val(items[index].open_time);
+                                      	ctrl.find("input[name='close']").val(items[index].close_time);
 				      }
                                   });
                               }

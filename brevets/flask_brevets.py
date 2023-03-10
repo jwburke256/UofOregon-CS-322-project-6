@@ -1,5 +1,5 @@
 """
-Replacement for RUSA ACP brevet time calculator
+Replacement for RUSA ACP brevet time calculator with RESTful API.
 (see https://rusa.org/octime_acp.html)
 
 """
@@ -13,13 +13,15 @@ import acp_times  # Brevet time calculations
 #import config
 #from mypymongo import brevet_insert, brevet_find
 
+import os
 import logging
+import requests # The Library we use to send requests to the API, not the be confused with flask.request
 
 ###
 # Globals
 ###
 app = flask.Flask(__name__)
-CONFIG = config.configuration()
+#CONFIG = config.configuration()
 
 ###
 # Pages
@@ -69,6 +71,37 @@ def _calc_times():
     result = {"open": open_time, "close": close_time}
     return flask.jsonify(result=result)
 
+
+# API Callers
+
+API_ADDR = os.environ["API_ADDR"]
+API_PORT = os.environ["API_PORT"]
+API_URL = f"http://{API_ADDR}:{API_PORT}/api/"
+
+
+def brevet_get():
+    """
+    TODO
+    """
+    brevets = requests.get(f"{API_URL}/brevets").json()
+    #lists should be a list of dictionaries, we just need the last one
+    brevet = brevets[-1]
+    return brevet["length"], brevet["start_time"], brevet["checkpoints"]
+
+def brevet_put(brevet_dist_km, begin_date, items):
+    """
+    TODO
+    """
+    #brevet_dist_km = input_json["brevet_dist_km"] # Should be a string
+    #begin_date = input_json["begin_date"] # Should be a string
+    #items = input_json["items"] # Should be a list of dictionaries
+
+    _id = requests.post(f"{API_URL}/brevets", json={"brevet_dist_km": brevet_dist_km, "begin_date": begin_date, "items": items})
+    return _id
+
+
+
+
 # add two more app routes, one for find and one for insert go here:
 
 @app.route("/_insert_brevet", methods=["POST"])
@@ -89,7 +122,7 @@ def _insert_brevet():
         begin_date = input_json["begin_date"] # Should be a string
         items = input_json["items"] # Should be a list of dictionaries
 
-        brevet_id = brevet_insert(brevet_dist_km, begin_date, items)
+        brevet_id = brevet_put(brevet_dist_km, begin_date, items)
 
         return flask.jsonify(result={},
                         message="Inserted!", 
@@ -113,7 +146,7 @@ def fetch():
     JSON interface: gets JSON, responds with JSON
     """
     try:
-        brevet_dist_km, begin_date, items = brevet_find()
+        brevet_dist_km, begin_date, items = brevet_get()
         return flask.jsonify(
                 result={"brevet_dist_km": brevet_dist_km, "begin_date": begin_date, "items": items}, 
                 status=1,
@@ -131,4 +164,4 @@ if app.debug:
     app.logger.setLevel(logging.DEBUG)
 
 if __name__ == "__main__":
-    app.run(port=os.environ["PORT"], host="0.0.0.0")
+    app.run(port=API_PORT, host="0.0.0.0")
