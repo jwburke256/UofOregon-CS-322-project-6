@@ -8,8 +8,10 @@ import flask
 from flask import request
 import arrow  # Replacement for datetime, based on moment.js
 import acp_times  # Brevet time calculations
-import config
-from mypymongo import brevet_insert, brevet_find
+
+#no longer needed:
+#import config
+#from mypymongo import brevet_insert, brevet_find
 
 import logging
 
@@ -124,10 +126,9 @@ def fetch():
 
 #############
 
-app.debug = CONFIG.DEBUG
+app.debug = os.environ["DEBUG"]
 if app.debug:
     app.logger.setLevel(logging.DEBUG)
 
 if __name__ == "__main__":
-    print("Opening for global access on port {}".format(CONFIG.PORT))
-    app.run(port=CONFIG.PORT, host="0.0.0.0")
+    app.run(port=os.environ["PORT"], host="0.0.0.0")
