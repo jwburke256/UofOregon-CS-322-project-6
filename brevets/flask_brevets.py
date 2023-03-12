@@ -22,6 +22,38 @@ import requests # The Library we use to send requests to the API, not the be con
 ###
 app = flask.Flask(__name__)
 #CONFIG = config.configuration()
+app.debug = True if "DEBUG" not in os.environ else os.environ["DEBUG"]
+port_num = True if "PORT" not in os.environ else os.environ["PORT"]
+app.logger.setLevel(logging.DEBUG)
+
+##################################################
+################### API Callers ################## 
+##################################################
+
+API_ADDR = os.environ["API_ADDR"]
+API_PORT = os.environ["API_PORT"]
+API_URL = f"http://{API_ADDR}:{API_PORT}/api/"
+
+def brevet_get():
+    """
+    TODO
+    """
+    brevets = requests.get(f"{API_URL}/brevets").json()
+    #lists should be a list of dictionaries, we just need the last one
+    brevet = brevets[-1]
+    return brevet["brevet_dist_km"], brevet["begin_date"], brevet["items"]
+
+def brevet_put(brevet_dist_km, begin_date, items):
+    """
+    TODO
+    """
+    #brevet_dist_km = input_json["brevet_dist_km"] # Should be a string
+    #begin_date = input_json["begin_date"] # Should be a string
+    #items = input_json["items"] # Should be a list of dictionaries
+
+    _id = requests.post(f"{API_URL}/brevets", json={"brevet_dist_km": brevet_dist_km, "begin_date": begin_date, "items": items}).json()
+    return _id
+
 
 ###
 # Pages
@@ -72,36 +104,6 @@ def _calc_times():
     return flask.jsonify(result=result)
 
 
-# API Callers
-
-API_ADDR = os.environ["API_ADDR"]
-API_PORT = os.environ["API_PORT"]
-API_URL = f"http://{API_ADDR}:{API_PORT}/api/"
-
-
-def brevet_get():
-    """
-    TODO
-    """
-    brevets = requests.get(f"{API_URL}/brevets").json()
-    #lists should be a list of dictionaries, we just need the last one
-    brevet = brevets[-1]
-    return brevet["length"], brevet["start_time"], brevet["checkpoints"]
-
-def brevet_put(brevet_dist_km, begin_date, items):
-    """
-    TODO
-    """
-    #brevet_dist_km = input_json["brevet_dist_km"] # Should be a string
-    #begin_date = input_json["begin_date"] # Should be a string
-    #items = input_json["items"] # Should be a list of dictionaries
-
-    _id = requests.post(f"{API_URL}/brevets", json={"brevet_dist_km": brevet_dist_km, "begin_date": begin_date, "items": items})
-    return _id
-
-
-
-
 # add two more app routes, one for find and one for insert go here:
 
 @app.route("/_insert_brevet", methods=["POST"])
@@ -118,7 +120,7 @@ def _insert_brevet():
         # if successful, input_json is automatically parsed into a python dictionary!
         
         # Because input_json is a dictionary, we can do this:
-        brevet_dist_km = input_json["brevet_dist_km"] # Should be a string
+        brevet_dist_km = input_json["brevet_dist_km"]# Should be a string
         begin_date = input_json["begin_date"] # Should be a string
         items = input_json["items"] # Should be a list of dictionaries
 
@@ -159,9 +161,5 @@ def fetch():
 
 #############
 
-app.debug = os.environ["DEBUG"]
-if app.debug:
-    app.logger.setLevel(logging.DEBUG)
-
 if __name__ == "__main__":
-    app.run(port=API_PORT, host="0.0.0.0")
+    app.run(port=port_num, host="0.0.0.0")

@@ -30,7 +30,7 @@ from database.models import Brevet
 
 class Brevets(Resource):
     def get(self):
-    json_object = Brevet.objects().to_json()
+        json_object = Brevet.objects().to_json()
         return Response(json_object, mimetype="application/json", status=200) 
     
     def post(self):
