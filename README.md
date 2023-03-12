@@ -26,7 +26,7 @@ In order to calculate the individual opening and closing brevet times, there is 
 
 ## Student:
 
-NameL Jacob Burke
+Name: Jacob Burke
 
 School Email: jburke2@uoregon.edu
 
