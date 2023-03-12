@@ -18,11 +18,11 @@ In order to calculate the individual opening and closing brevet times, there is 
 
 ### API Docoumentation
 	
-    * GET `http://API:PORT/api/brevets` will display all brevets stored in the database.
-	* GET `http://API:PORT/api/brevet/ID` will display brevet with id `ID`.
-	* POST `http://API:PORT/api/brevets` will insert brevet object in request into the database.
-	* DELETE `http://API:PORT/api/brevet/ID` will delete brevet with id `ID`.
-	* PUT `http://API:PORT/api/brevet/ID` will update brevet with id `ID` with object in request.
+* GET `http://API:PORT/api/brevets` will display all brevets stored in the database.
+* GET `http://API:PORT/api/brevet/ID` will display brevet with id `ID`.
+* POST `http://API:PORT/api/brevets` will insert brevet object in request into the database.
+* DELETE `http://API:PORT/api/brevet/ID` will delete brevet with id `ID`.
+* PUT `http://API:PORT/api/brevet/ID` will update brevet with id `ID` with object in request.
 
 ## Student:
 
