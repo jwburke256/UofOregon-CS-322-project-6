@@ -16,7 +16,7 @@ This webapp is based on and utilized the calculator found here [https://rusa.org
 
 In order to calculate the individual opening and closing brevet times, there is an algorithm that can be used along with a corresponding chart of maximum and minimum speeds. Essentially the algorithm takes a given control location, and the end brevet distance. From there the mathematical algorithm divides the given control distance by the minimum/maximum speed, with the integer portion of the result being the hours. For the minutes, you take the remainder and multiply by 60 then round. Finally one just has to take the new time and add it to the original start time to determine the corresponding brevits. There are additional edge cases to look out for which are accounted for such as having a control under 60km, having a start time early on end before any late arrivals begin, and having a control slightly over the final ending brevet distance. All of these are explained further and noted on [https://rusa.org/pages/acp-brevet-control-times-calculator](https://rusa.org/pages/acp-brevet-control-times-calculator).  
 
-### API Docoumentation
+### API Documentation
 	
 * GET `http://API:PORT/api/brevets` will display all brevets stored in the database.
 * GET `http://API:PORT/api/brevet/ID` will display brevet with id `ID`.
