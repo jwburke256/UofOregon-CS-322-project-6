@@ -1,4 +1,4 @@
-# UOCIS322 - Project 5 #
+# UOCIS322 - Project 6 #
 Continuation of the Brevet time calculator but now refactoring out MongoDB calls to utilize a RESTful API.
 
 ## Overview
